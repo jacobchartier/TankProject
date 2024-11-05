@@ -13,6 +13,8 @@
 #include "InputMappingContext.h"
 #include "Engine/LocalPlayer.h"
 
+#include "DrawDebugHelpers.h"
+
 #include "Tank.generated.h"
 
 class UInputMappingContext;
@@ -27,7 +29,12 @@ class TANKPROJECT_API ATank : public AMasterPawn
 public:
 	ATank();
 
+	void BeginPlay();
+	void Tick(float DeltaTime);
+
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	APlayerController* PlayerControllerRef;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputMappingContext* DefaultMappingContext;

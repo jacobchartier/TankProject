@@ -12,6 +12,31 @@ ATank::ATank()
 	FollowCamera->SetupAttachment(SpringArm);
 }
 
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
+
+	DrawDebugSphere(GetWorld(), GetActorLocation() + FVector(0.f, 0.f, 200.f), 100.f, 12, FColor::Green, true, 10.f);
+
+	PlayerControllerRef = Cast<APlayerController>(GetController());
+}
+
+void ATank::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	FHitResult HitResult;
+
+	if (PlayerControllerRef)
+	{
+		PlayerControllerRef->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, HitResult);
+
+		RotateTurret(HitResult.ImpactPoint);	 
+
+		DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 25.f, 12, FColor::Green, false, -1.f);
+	}
+}
+
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 

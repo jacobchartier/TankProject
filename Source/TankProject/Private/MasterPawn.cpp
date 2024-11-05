@@ -9,11 +9,11 @@ AMasterPawn::AMasterPawn()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	CapsuleComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule Collider"));
-	RootComponent = CapsuleComp;
+	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule Collider"));
+	RootComponent = CapsuleComponent;
 
 	BodyMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Body Mesh"));
-	BodyMesh->SetupAttachment(CapsuleComp);
+	BodyMesh->SetupAttachment(CapsuleComponent);
 
 	CannonMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Cannon Mesh"));
 	CannonMesh->SetupAttachment(BodyMesh);
@@ -29,6 +29,14 @@ void AMasterPawn::BeginPlay()
 	
 }
 
+void AMasterPawn::RotateTurret(FVector LookAtTarget) 
+{
+	FVector ToTarget = LookAtTarget - CannonMesh->GetComponentLocation();
+	FRotator LookAtRotation = FRotator(0.f, ToTarget.Rotation().Yaw, 0.f);
+
+	CannonMesh->SetWorldRotation(LookAtRotation);
+}
+
 // Called every frame
 void AMasterPawn::Tick(float DeltaTime)
 {
@@ -40,6 +48,5 @@ void AMasterPawn::Tick(float DeltaTime)
 void AMasterPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 

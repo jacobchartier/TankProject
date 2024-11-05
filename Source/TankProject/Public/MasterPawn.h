@@ -24,6 +24,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	void RotateTurret(FVector LookAtTarget);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -34,7 +36,7 @@ public:
 private:
 
 	UPROPERTY(EditAnywhere)
-	class UCapsuleComponent* CapsuleComp;
+	class UCapsuleComponent* CapsuleComponent;
 
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* BodyMesh;
